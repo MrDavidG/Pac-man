@@ -14,13 +14,14 @@
 import settings as Settings
 
 
-def DepthFirst(loc_1, loc_2):
+def DepthFirst(target, path):
     pass
 
 
-def Dijkstra(loc_1, loc_2):
+def Dijkstra(target, path):
     pass
 
 
-def getShortestPath(loc_1, loc_2):
-    pass
+def getShortestPath(start, target):
+    DepthFirst(target, [start])
+    Dijkstra(target, [start])

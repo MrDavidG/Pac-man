@@ -11,13 +11,13 @@
 
 
 """
-import Walker
+from Walker import Walker
 
 
 class Pacman(Walker):
 
     def __init__(self, x, y):
-        super(Pacman, self).__init__(x, y)
+        Walker.__init__(self, x, y)
         self.__icon_right = "./figures/Pacman_right.png"
         self.__icon_left = "./figures/Pacman_left.png"
         self.__icon_up = "./figures/Pacman_up.png"

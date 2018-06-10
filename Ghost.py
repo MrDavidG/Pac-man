@@ -11,14 +11,14 @@
 
 
 """
-import Walker
+from Walker import Walker
 
 
 class Ghost(Walker):
 
     def __init__(self, x, y):
         Walker.__init__(self, x, y)
-        self.__icon_right = "./figure/ghost_right.png"
+        self.__icon_right = "./figures/ghost_right.png"
         self.__icon_left = "./figures/ghost_left.png"
         self.__icon_up = "./figures/ghost_up.png"
         self.__icon_down = "./figures/ghost_down.png"

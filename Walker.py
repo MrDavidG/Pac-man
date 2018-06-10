@@ -22,6 +22,9 @@ class Walker:
         self.__y = y
         self.__actions = ["right", "left", "up", "down", "stop"]
 
+    def getLoc(self):
+        return self.__x * Settings.UNIT_LENGTH, self.__y * Settings.UNIT_LENGTH
+
     def canReach(self, x, y):
         return Settings.MAP[x][y] in Settings.path
 
