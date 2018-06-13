@@ -13,6 +13,8 @@ UNIT_HEIGHT = 23
 FIG_PATH = "./figures/path.png"
 FIG_WALL = "./figures/wall.png"
 
+SHORTESTPATH_DF = True
+SHORTESTPATH_DIJ = not SHORTESTPATH_DF
 # MAP
 WALL = 1
 PATH = [0, 2]

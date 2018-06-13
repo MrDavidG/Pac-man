@@ -68,10 +68,11 @@ def run_game():
         if Settings.PACMAN:
             # 如果是吃豆豆的情况下
             # TODO
-            state = {'map':Settings.MAP_state}
+            state = {'map': Settings.MAP_state}
         else:
             # 如果是不吃豆豆的情况下
-            state = {'map': Settings.MAP_state, 'ghost_locations': [ghost_1.getLoc()], 'pacman_location': pacman_1.getLoc()}
+            state = {'map': Settings.MAP_state, 'ghost_locations': [ghost_1.getLoc()],
+                     'pacman_location': pacman_1.getLoc()}
 
         # 绘制gHost
         loc_last = ghost_1.getLoc()

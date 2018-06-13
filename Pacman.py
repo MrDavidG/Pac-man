@@ -12,7 +12,6 @@
 
 """
 from Walker import Walker
-import numpy as np
 
 
 class Pacman(Walker):
@@ -27,20 +26,7 @@ class Pacman(Walker):
     def getNextAction(self):
         return 0, 0,
 
-    def evaluate(self, state):
+    def evaluate(self, loc_next):
         return 0
 
-    def takeAction(self, state):
-        actions = {'left': 0,
-                   'right': 0,
-                   'up': 0,
-                   'down': 0,
-                   'stop': 0}
-        # 获取所有actions在当前state下的value
-        for key in actions:
-            loc_next = self.getNextLoc(key)
-            actions[key] = self.evaluate(state, loc_next)
-        argmax_key = np.argmax(actions)
-        # TODO: 如果有ties需要解决
 
-        return self.__iconMap[argmax_key], self.getNextLoc(argmax_key)
