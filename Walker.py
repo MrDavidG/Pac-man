@@ -14,6 +14,8 @@
 import settings as Settings
 import pygame
 import random
+import Map
+
 
 class Walker:
 
@@ -22,18 +24,16 @@ class Walker:
         self.__y = y
         self.__dir = dir
         self.__actions = ["right", "left", "up", "down", "stop"]
+        self.__iconMap = {}
 
     def getLoc(self):
         return self.__x, self.__y
-
-
-
 
     def getArcMax_key(self, dict):
         max_ = max(dict.values())
         list = []
         for key in dict.keys():
-            if dict.get(key)==max_:
+            if dict.get(key) == max_:
                 list.append(key)
         res_index = random.randrange(0, len(list))
         return list[res_index]
@@ -42,15 +42,18 @@ class Walker:
         walker = pygame.image.load(figure).convert_alpha()
         return pygame.transform.scale(walker, (Settings.UNIT_LENGTH, Settings.UNIT_LENGTH))
 
-    def takeAction(self, state):
-        actions = {'left': 0,
-                   'right': 0,
-                   'up': 0,
-                   'down': 0,
-                   'stop': 0}
+    def getValueOfAction(self, loc, dir, state):
+        pass
+
+    def takeAction(self, loc, state, iconMap):
+        valuesOfActions = {'left': 0,
+                           'right': 0,
+                           'up': 0,
+                           'down': 0,
+                           'stop': 0}
         # 获取所有actions在当前state下的value
-        for key in actions:
-            loc_next = self.getNextLoc(key)
-            actions[key] = self.evaluate(loc_next)
-        argmax_key = self.getArgMax_key(actions)
-        return self.__iconMap.get(argmax_key), self.getNextLoc(argmax_key)
+        for key in valuesOfActions:
+            valuesOfActions[key] = self.getValueOfAction(loc, key, state)
+        argmax_dir = self.getArcMax_key(valuesOfActions)
+        (self.__x, self.__y) = Map.getNextLoc(loc, argmax_dir)
+        return iconMap.get(argmax_dir), (self.__x, self.__y)
