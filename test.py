@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
-import pygame, sys
+import Queue
 
-pygame.init()
-screen = pygame.display.set_caption('hello world!')
-screen = pygame.display.set_mode([640, 480])
-screen.fill([255, 255, 255])
+if __name__ == '__main__':
 
-pygame.display.flip()
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
+    a = Queue.Queue()
+    a.put((1,2))
+    a.put((2,3))
+
+    print a.empty()

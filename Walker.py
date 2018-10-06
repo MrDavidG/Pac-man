@@ -55,5 +55,9 @@ class Walker:
         for key in valuesOfActions:
             valuesOfActions[key] = self.getValueOfAction(loc, key, state)
         argmax_dir = self.getArcMax_key(valuesOfActions)
-        (self.__x, self.__y) = Map.getNextLoc(loc, argmax_dir)
+        loc_temp = Map.getNextLoc(loc, argmax_dir)
+        if loc_temp == False:
+            (self.__x, self.__y) = loc
+        else:
+            (self.__x, self.__y) = loc_temp
         return iconMap.get(argmax_dir), (self.__x, self.__y)

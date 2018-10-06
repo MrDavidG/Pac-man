@@ -27,4 +27,8 @@ class Pacman(Walker):
         return 0
 
     def getValueOfAction(self, loc, dir, state):
-        return float(Map.getShortestPath(Map.getNextLoc(loc, dir), state.get('ghost_locations')[0]))  # 只有一个ghost的情况
+        start = Map.getNextLoc(loc, dir)
+        if start == False:
+            start = loc
+        target = state.get('ghost_locations')[0]
+        return float(Map.getShortestPath(start, target))  # 只有一个ghost的情况

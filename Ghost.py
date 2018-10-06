@@ -24,7 +24,11 @@ class Ghost(Walker):
         return 1;
 
     def getValueOfAction(self, loc, dir, state):
-        shortestPath = Map.getShortestPath(Map.getNextLoc(loc, dir), state.get('pacman_location'))
+        start = Map.getNextLoc(loc, dir)
+        if start == False:
+            start = loc
+        target = state.get('pacman_location')
+        shortestPath = Map.getShortestPath(start, target)
         if shortestPath == 0:
             return Settings.MAX_VALUE
         else:

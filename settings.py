@@ -4,30 +4,32 @@ import numpy as np
 
 PACMAN = False
 
+# 界面参数
 screen_width = 750
 screen_height = 690
 BG_COLOR = (0, 0, 0)
 UNIT_LENGTH = 30
 UNIT_WIDTH = 25
 UNIT_HEIGHT = 23
+UNIT_INTERVAL = 0.5
+PASS_THROUGH = True
+
+# 图片路径
 FIG_PATH = "./figures/path.png"
 FIG_WALL = "./figures/wall.png"
-UNIT_INTERVAL = 1
-LONGEST_LENGTH = 40
-MAX_VALUE = 99999999999
-PASS_THROUGH = False
-
 ICONMAP_PACMAN = {'right': './figures/Pacman_right.png',
                   'left': './figures/Pacman_left.png',
                   'up': './figures/Pacman_up.png',
                   'down': './figures/Pacman_down.png'}
-ICONMAP_GHOST = {'right': './figures/red_right.png',
-                 'left': './figures/red_left.png',
-                 'up': './figures/red_up.png',
-                 'down': './figures/red_down.png'}
+ICONMAP_GHOST_1 = {'right': './figures/red_right.png',
+                   'left': './figures/red_left.png',
+                   'up': './figures/red_up.png',
+                   'down': './figures/red_down.png'}
+ICONMAP_GHOST_2 = {'right': './figures/blue_right.png',
+                   'left': './figures/blue_left.png',
+                   'up': './figures/blue_up.png',
+                   'down': './figures/blue_down.png'}
 
-SHORTESTPATH_DF = True
-SHORTESTPATH_DIJ = not SHORTESTPATH_DF
 # MAP
 WALL = 1
 PATH = [0, 2]
@@ -54,7 +56,6 @@ MAP = np.array([[1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 
                    , [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1]
                    , [1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1]
                    , [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]])
-
 MAP_state = np.array([[1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
                          , [1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1]
                          , [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1]
@@ -78,3 +79,16 @@ MAP_state = np.array([[1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
                          , [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1]
                          , [1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1]
                          , [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]])
+
+# 路径搜索策略
+SHORTESTPATH_BFS = True
+SHORTESTPATH_DF = False
+SHORTESTPATH_DIJ = False
+# 深搜阈值
+LONGEST_LENGTH = 25
+# 路径上限
+MAX_VALUE = 99999999999
+# 广搜
+STATE_PENDING = 3
+STATE_PROCESSED = 4
+STATE_UNTREATED = PATH

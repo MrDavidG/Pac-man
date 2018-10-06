@@ -2,9 +2,14 @@
 import settings as Settings
 import pygame
 import Map
-import time
 from Ghost import Ghost
 from Pacman import Pacman
+import sys, time
+
+
+def loadMusic(music):
+    pygame.mixer.music.load(music)
+    pygame.mixer.music.play()
 
 
 def loadFigure(figure):
@@ -62,18 +67,19 @@ def run_game():
     # 让最近绘制的屏幕可见
     pygame.display.flip()
 
-    t = 0
+    loadMusic("./music/Devil Trigger.mp3")
 
     # 开始游戏主循环
     while True:
         # 每一步之间的时间间隔
         # time.sleep(Settings.UNIT_INTERVAL)
-        t += 1
 
         # 监视键盘和鼠标事件
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         sys.exit()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            else:
+                break
 
         # 计算并保留当前的state
         if Settings.PACMAN:
@@ -87,7 +93,7 @@ def run_game():
 
         # 绘制gHost
         loc_last = ghost_1.getLoc()
-        figure, loc_next = ghost_1.takeAction(ghost_1.getLoc(), state, Settings.ICONMAP_GHOST)
+        figure, loc_next = ghost_1.takeAction(ghost_1.getLoc(), state, Settings.ICONMAP_GHOST_1)
         drawMoving(screen, figure, loc_last, loc_next)
         # 绘制pac-man
         loc_last = pacman_1.getLoc()
@@ -100,5 +106,5 @@ def run_game():
         if ghost_1.getLoc() == pacman_1.getLoc():
             break
 
-
-run_game()
+if __name__ == '__main__':
+    run_game()
