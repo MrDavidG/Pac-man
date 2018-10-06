@@ -14,16 +14,16 @@ The game map consists of 25*23 grids.
 
 ### Target
 
-####Pac-man
+#### Pac-man
 
-<img width="150" height="150" src='./figures/Pacman_left.png' alt='Pac-man'/>
+<img width="80" height="80" src='./figures/Pacman_left.png' alt='Pac-man'/>
 
 * Escape from Ghosts
 * Eat all the beans (TODO)
 
-####Ghosts
+#### Ghosts
 
-<img width="150" height="150" src='./figures/red_left.png' alt='Ghost'/>
+<img width="80" height="80" src='./figures/red_left.png' alt='Ghost'/>
 
 * Catch Pac-man
 
@@ -41,6 +41,6 @@ The method for shortest path query can be set in settings.py.
 * Greedy: Take the action to shorten/lengthen the distance between Pac-man and Ghost.
 * Reinforcement learning (TODO)
 
-####Two Ghost
+#### Two Ghost
 
 * TODO
