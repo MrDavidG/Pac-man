@@ -4,7 +4,8 @@ import pygame
 import Map
 from Ghost import Ghost
 from Pacman import Pacman
-import sys, time
+import sys
+import time
 
 
 def loadMusic(music):
@@ -25,17 +26,22 @@ def drawBlackBlock(screen, loc):
                       Settings.UNIT_LENGTH])
 
 
-def drawMoving(screen, figure, loc_last, loc_next):
+def drawMoving(screen, figure, loc_last, loc_next, eat_dots=False):
     # 消去上一个格子
-    # 如果是PACMAN的规则，即吃豆豆的话
     if loc_next != loc_last:
-        if Settings.PACMAN:
+        # EATING
+        if Settings.TARGET_PACMAN == Settings.TARGET_EAT:
             drawBlackBlock(screen, loc_last)
-        elif Map.get((loc_last[0], loc_last[1])) == 0:
-            path = loadFigure(Settings.FIG_PATH)
-            screen.blit(path, (loc_last[1] * Settings.UNIT_LENGTH, loc_last[0] * Settings.UNIT_LENGTH))
-        elif Map.get((loc_last[0], loc_last[1])) == 2:
-            drawBlackBlock(screen, loc_last)
+        # ESCAPING
+        elif Settings.TARGET_PACMAN == Settings.TARGET_ESCAPE:
+            if eat_dots:
+                drawBlackBlock(screen, loc_last)
+            else:
+                if Map.get((loc_last[0], loc_last[1])) == 0:
+                    path = loadFigure(Settings.FIG_PATH)
+                    screen.blit(path, (loc_last[1] * Settings.UNIT_LENGTH, loc_last[0] * Settings.UNIT_LENGTH))
+                elif Map.get((loc_last[0], loc_last[1])) == 2:
+                    drawBlackBlock(screen, loc_last)
 
         # 画下一个格子
         screen.blit(loadFigure(figure), (loc_next[1] * Settings.UNIT_LENGTH, loc_next[0] * Settings.UNIT_LENGTH))
@@ -59,8 +65,10 @@ def run_game():
             elif (Map.get((i, j)) == 0):
                 screen.blit(path, (j * Settings.UNIT_LENGTH, i * Settings.UNIT_LENGTH))
     # 绘制gHost
-    ghost_1 = Ghost(11, 12, 'left')
-    screen.blit(ghost_1.getFigure("./figures/red_right.png"), (12 * Settings.UNIT_LENGTH, 11 * Settings.UNIT_LENGTH))
+    ghost_1 = Ghost(10, 11, 'left')
+    screen.blit(ghost_1.getFigure("./figures/red_right.png"), (11 * Settings.UNIT_LENGTH, 10 * Settings.UNIT_LENGTH))
+    ghost_2 = Ghost(12, 13, 'left')
+    screen.blit(ghost_1.getFigure("./figures/blue_right.png"), (13 * Settings.UNIT_LENGTH, 12 * Settings.UNIT_LENGTH))
     # 绘制pac-man
     pacman_1 = Pacman(11, 1, 'right')
     screen.blit(pacman_1.getFigure("./figures/Pacman_left.png"), (1 * Settings.UNIT_LENGTH, 11 * Settings.UNIT_LENGTH))
@@ -69,10 +77,11 @@ def run_game():
 
     loadMusic("./music/Devil Trigger.mp3")
 
-    # 开始游戏主循环
+    count_dots = 300
+    # the main loop
     while True:
-        # 每一步之间的时间间隔
-        # time.sleep(Settings.UNIT_INTERVAL)
+        # time interval among steps
+        time.sleep(Settings.UNIT_INTERVAL)
 
         # 监视键盘和鼠标事件
         for event in pygame.event.get():
@@ -81,30 +90,44 @@ def run_game():
             else:
                 break
 
-        # 计算并保留当前的state
-        if Settings.PACMAN:
-            # 如果是吃豆豆的情况下
-            # TODO
-            state = {'map': Settings.MAP_state}
-        else:
-            # 如果是不吃豆豆的情况下
-            state = {'map': Settings.MAP_state, 'ghost_locations': [ghost_1.getLoc()],
-                     'pacman_location': pacman_1.getLoc()}
+        # current state
+        state = {'ghost_locations': [ghost_1.getLoc(), ghost_2.getLoc()],
+                 'pacman_location': pacman_1.getLoc()}
 
-        # 绘制gHost
-        loc_last = ghost_1.getLoc()
-        figure, loc_next = ghost_1.takeAction(ghost_1.getLoc(), state, Settings.ICONMAP_GHOST_1)
-        drawMoving(screen, figure, loc_last, loc_next)
-        # 绘制pac-man
+        # one move for pac-man&ghost
+        # pac-man
         loc_last = pacman_1.getLoc()
-        figure, loc_next = pacman_1.takeAction(pacman_1.getLoc(), state, Settings.ICONMAP_PACMAN)
+        figure, loc_next = pacman_1.takeAction(state, Settings.ICONMAP_PACMAN)
+        drawMoving(screen, figure, loc_last, loc_next, True)
+        # eat a dot
+        if Map.get(loc_next) == Settings.MAP_DOTS:
+            Map.eatDots(loc_next)
+            count_dots -= 1
+
+        # gHost
+        loc_last = ghost_1.getLoc()
+        figure, loc_next = ghost_1.takeAction(state, Settings.ICONMAP_GHOST_1)
         drawMoving(screen, figure, loc_last, loc_next)
+
+        loc_last = ghost_2.getLoc()
+        figure, loc_next = ghost_2.takeAction(state, Settings.ICONMAP_GHOST_2)
+        drawMoving(screen, figure, loc_last, loc_next)
+
         # 让最近绘制的屏幕可见
         pygame.display.flip()
 
         # 判定胜利条件
-        if ghost_1.getLoc() == pacman_1.getLoc():
+        if ghost_1.getLoc() == pacman_1.getLoc() or ghost_2.getLoc() == pacman_1.getLoc():
             break
+        if count_dots <= 0:
+            break
+    # 监视键盘和鼠标事件
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        else:
+            break
+
 
 if __name__ == '__main__':
     run_game()

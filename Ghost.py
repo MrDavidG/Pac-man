@@ -14,14 +14,16 @@
 from Walker import Walker
 import Map
 import settings as Settings
+import Network
 
 class Ghost(Walker):
+    Count = 1
+    model = Network()
     # 这里的x, y为map数组里面的概念
     def __init__(self, x, y, dir):
         Walker.__init__(self, x, y, dir)
-
-    def evaluate(self, state):
-        return 1;
+        self._no = Ghost.Count
+        Ghost.Count += 1
 
     def getValueOfAction(self, loc, dir, state):
         start = Map.getNextLoc(loc, dir)
@@ -33,3 +35,6 @@ class Ghost(Walker):
             return Settings.MAX_VALUE
         else:
             return 100.0 / float(shortestPath)
+
+    def predictAction(self, state):
+        return Ghost.model.predict(state)

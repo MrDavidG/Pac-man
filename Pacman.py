@@ -13,22 +13,26 @@
 """
 from Walker import Walker
 import Map
+import Network
 
 
 class Pacman(Walker):
+    Count = 1
+    model = Network()
 
     def __init__(self, x, y, dir):
         Walker.__init__(self, x, y, dir)
-
-    def getNextAction(self):
-        return 0, 0
-
-    def evaluate(self, loc_next):
-        return 0
+        self._no = Pacman.Count
+        Pacman.Count += 1
 
     def getValueOfAction(self, loc, dir, state):
         start = Map.getNextLoc(loc, dir)
         if start == False:
             start = loc
-        target = state.get('ghost_locations')[0]
-        return float(Map.getShortestPath(start, target))  # 只有一个ghost的情况
+        list_dis = []
+        for ghost_location in state.get('ghost_locations'):
+            list_dis += [float(Map.getShortestPath(start, ghost_location))]
+        return min(list_dis)
+
+    def predictAction(self, state):
+        return Pacman.model.predict(state)

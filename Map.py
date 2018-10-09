@@ -16,13 +16,19 @@ import settings as Settings
 import copy
 import Queue
 
+Map = copy.copy(Settings.MAP)
+
 
 def get((x, y)):
-    return Settings.MAP[x][y]
+    return Map[x][y]
+
+
+def eatDots((x, y)):
+    Map[x][y] = Settings.MAP_EMPTY
 
 
 def canReach((x, y)):
-    return get((x, y)) in Settings.PATH
+    return get((x, y)) in Settings.MAP_PATH
 
 
 def getNextLoc(loc, dir, step=1):
@@ -46,6 +52,14 @@ def getNextLoc(loc, dir, step=1):
         return x, y
     else:
         return False
+
+
+def getFeasibleActions(loc, step=1):
+    actions_feasible = ['stay']
+    for dir in ['up', 'down', 'left', 'right']:
+        if getNextLoc(loc, 'up') != False:
+            actions_feasible += [dir]
+    return actions_feasible
 
 
 def BreadthFirst(start, target):
