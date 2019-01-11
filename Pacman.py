@@ -13,7 +13,7 @@
 """
 from Walker import Walker
 import Map
-import Network
+from Network import Network
 
 
 class Pacman(Walker):

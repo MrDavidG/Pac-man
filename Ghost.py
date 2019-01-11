@@ -14,7 +14,7 @@
 from Walker import Walker
 import Map
 import settings as Settings
-import Network
+from Network import Network
 
 class Ghost(Walker):
     Count = 1

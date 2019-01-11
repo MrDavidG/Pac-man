@@ -14,20 +14,23 @@
 """
 import settings as Settings
 import copy
-import Queue
+import queue
 
 Map = copy.copy(Settings.MAP)
 
 
-def get((x, y)):
+def get(loc):
+    (x, y) = loc
     return Map[x][y]
 
 
-def eatDots((x, y)):
+def eatDots(loc):
+    (x, y) = loc
     Map[x][y] = Settings.MAP_EMPTY
 
 
-def canReach((x, y)):
+def canReach(loc):
+    (x, y) = loc
     return get((x, y)) in Settings.MAP_PATH
 
 
@@ -64,7 +67,7 @@ def getFeasibleActions(loc, step=1):
 
 def BreadthFirst(start, target):
     # 记录当前待处理的节点
-    list_pending = Queue.Queue()
+    list_pending = queue.Queue()
     # 初始化，把起点变成待处理状态
     list_pending.put((start[0], start[1], 0))
     # 用来记录已经遍历过的节点
